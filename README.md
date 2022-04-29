@@ -1,6 +1,6 @@
 # Coveralls Orb
 
-[![CircleCI Build Status](https://circleci.com/gh/ergeon/coveralls-orb/tree/master.svg?style=shield&circle-token=cb0134d462154a47084714bb7a35fb41164178f5 "CircleCI Build Status")](https://circleci.com/gh/ergeon/coveralls-orb/tree/master) [![CircleCI Orb Version](https://badges.circleci.com/orbs/ergeon/coveralls-orb.svg)](https://circleci.com/orbs/registry/orb/ergeon/coveralls-orb) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/ergeon/coveralls-orb/master/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
+[![CircleCI Build Status](https://circleci.com/gh/ergeon/coveralls-orb/tree/develop.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/ergeon/coveralls-orb/tree/develop) [![CircleCI Orb Version](https://badges.circleci.com/orbs/ergeon/coveralls-orb.svg)](https://circleci.com/orbs/registry/orb/ergeon/coveralls-orb) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/ergeon/coveralls-orb/master/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
 
 This is a simple Orb based on https://github.com/coverallsapp/orb that will submit your coverage data to Coveralls.io.
 
