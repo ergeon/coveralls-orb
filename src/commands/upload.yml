@@ -38,7 +38,7 @@ steps:
   - run:
       environment:
         PATH_TO_LCOV: <<parameters.path_to_lcov>>
-        TOKEN: <<parameters.token>>
+        COVERALLS_REPO_TOKEN: <<parameters.token>>
         COVERALLS_FLAG_NAME: <<parameters.flag_name>>
         PARALLEL: <<parameters.parallel>>
         PARALLEL_FINISHED: <<parameters.parallel_finished>>
