@@ -1,14 +1,11 @@
 #!/bin/bash
 if [ "$PARALLEL_FINISHED" ]; then
-  curl "${COVERALLS_ENDPOINT}/webhook?repo_token=${TOKEN}" \
+  curl "${COVERALLS_ENDPOINT}/webhook?repo_token=${COVERALLS_REPO_TOKEN}" \
     -d "payload[build_num]=$CIRCLE_WORKFLOW_ID&payload[status]=done"
   exit 0
 fi
 if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
 $SUDO npm install -g coveralls
-if [ ! "$COVERALLS_REPO_TOKEN" ]; then
-  export COVERALLS_REPO_TOKEN=$TOKEN
-fi
 if [ "$PARALLEL" ]; then
   export COVERALLS_PARALLEL=true
 fi
