@@ -36,13 +36,12 @@ parameters:
     default: false
 steps:
   - run:
-      environment:
-        PATH_TO_LCOV: <<parameters.path_to_lcov>>
-        COVERALLS_REPO_TOKEN: <<parameters.token>>
-        COVERALLS_FLAG_NAME: <<parameters.flag_name>>
-        PARALLEL: <<parameters.parallel>>
-        PARALLEL_FINISHED: <<parameters.parallel_finished>>
-        COVERALLS_ENDPOINT: <<parameters.coveralls_endpoint>>
-        VERBOSE: <<parameters.verbose>>
       name: Upload Coverage Result To Coveralls
+      environment:
+        PATH_TO_LCOV: << parameters.path_to_lcov >>
+        COVERALLS_FLAG_NAME: << parameters.flag_name >>
+        PARALLEL: << parameters.parallel >>
+        PARALLEL_FINISHED: << parameters.parallel_finished >>
+        COVERALLS_ENDPOINT: << parameters.coveralls_endpoint >>
+        VERBOSE: << parameters.verbose >>
       command: <<include(scripts/upload.sh)>>
