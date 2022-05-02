@@ -42,7 +42,9 @@ workflows:
           pub-type: production
           requires:
             - orb-tools/pack
-          context: orb-publishing
+          context:
+            - orb-publishing
+            - github-secrets
           filters:
             branches:
               ignore: /.*/
