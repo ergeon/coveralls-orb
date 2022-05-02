@@ -1,12 +1,12 @@
 #!/bin/bash
-if [ "$PARALLEL_FINISHED" ]; then
+if [ "$PARALLEL_FINISHED" = true ]; then
   curl "${COVERALLS_ENDPOINT}/webhook?repo_token=${COVERALLS_REPO_TOKEN}" \
     -d "payload[build_num]=$CIRCLE_WORKFLOW_ID&payload[status]=done"
   exit 0
 fi
 if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
 $SUDO npm install -g coveralls
-if [ "$PARALLEL" ]; then
+if [ "$PARALLEL" = true ]; then
   export COVERALLS_PARALLEL=true
 fi
 # check for lcov file presence:
@@ -17,7 +17,7 @@ fi
 
 if [ -n "$CIRCLE_PULL_REQUEST" ] || [ "${CIRCLE_BRANCH}" = "develop" ] || [ "${CIRCLE_BRANCH}" = "master" ]; then
   echo "Uploading coverage report to Coveralls..."
-  if [ "$VERBOSE" ]; then
+  if [ "$VERBOSE" = true ]; then
     < "$PATH_TO_LCOV" coveralls --verbose
   else
     < "$PATH_TO_LCOV" coveralls
@@ -27,7 +27,7 @@ else
   do
     PULL_REQUEST_NUMBER=$(curl -sb -H "Accept: application/json" -H "Authorization: Token $GITHUB_API_TOKEN" "https://api.github.com/repos/$ORG_NAME/$CIRCLE_PROJECT_REPONAME/commits/$CIRCLE_SHA1/pulls" | python -c 'import json,sys;data=json.load(sys.stdin);print(data[0]["number"]) if data and isinstance(data, list) else print()')
     if [ -n "$PULL_REQUEST_NUMBER" ]; then
-      if [ "$VERBOSE" ]; then
+      if [ "$VERBOSE" = true ]; then
         < "$PATH_TO_LCOV" CI_PULL_REQUEST=$PULL_REQUEST_NUMBER coveralls --verbose
       else
         < "$PATH_TO_LCOV" CI_PULL_REQUEST=$PULL_REQUEST_NUMBER coveralls
