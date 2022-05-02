@@ -4,11 +4,27 @@ if [ "$PARALLEL_FINISHED" = true ]; then
     -d "payload[build_num]=$CIRCLE_WORKFLOW_ID&payload[status]=done"
   exit 0
 fi
+
 if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
-$SUDO npm install -g coveralls
+
+if ! command -v npm &> /dev/null; then
+  pip install coveralls
+else
+  $SUDO npm install -g coveralls
+fi
+echo "coveralls installed"
+
+if ! command -v python &> /dev/null; then
+  $SUDO apt update
+  $SUDO apt -y upgrade
+  $SUDO apt install -y python
+  python -c 'print("Python installed!")'
+fi
+
 if [ "$PARALLEL" = true ]; then
   export COVERALLS_PARALLEL=true
 fi
+
 # check for lcov file presence:
 if [ ! -r "$PATH_TO_LCOV" ]; then
   echo "Please specify a valid 'path_to_lcov' parameter."
