@@ -10,18 +10,29 @@ filters: &filters
 jobs:
     # Create a job to test the commands of your orbs.
     # You may want to add additional validation steps to ensure the commands are working as expected.
-    command-tests:
+    python-test:
       docker:
-        - image: cimg/base:current
+        - image: cimg/python:3.8.9
       steps:
         - checkout
-        # Run your orb's commands to validate them.
+        - run: python --version
+        - run: pip --version
+        - coveralls/upload
+    node-test:
+      docker:
+        - image: cimg/node:14.16.0
+      steps:
+        - checkout
+        - run: npm --version
+        - run: node --version
         - coveralls/upload
 workflows:
   test-deploy:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
-      - command-tests:
+      - python-test:
+          filters: *filters
+      - node-test:
           filters: *filters
       - orb-tools/pack:
           filters: *filters
@@ -31,7 +42,8 @@ workflows:
           pub-type: production
           requires:
             - orb-tools/pack
-            - command-tests
+            - python-test
+            - node-test
           context: orb-publishing
           filters:
             branches:
