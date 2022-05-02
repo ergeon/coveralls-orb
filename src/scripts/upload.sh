@@ -1,5 +1,7 @@
 #!/bin/bash
+echo "$PARALLEL_FINISHED"
 if [ "$PARALLEL_FINISHED" ]; then
+  echo "Parallel test has finished, exiting"
   curl "${COVERALLS_ENDPOINT}/webhook?repo_token=${COVERALLS_REPO_TOKEN}" \
     -d "payload[build_num]=$CIRCLE_WORKFLOW_ID&payload[status]=done"
   exit 0
