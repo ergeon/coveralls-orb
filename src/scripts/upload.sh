@@ -17,36 +17,32 @@ echo "coveralls installed"
 if ! command -v python &> /dev/null; then
   $SUDO apt update
   $SUDO apt -y upgrade
-  $SUDO apt install -y python
-  python -c 'print("Python installed!")'
+  python3.8 -c 'print("Python installed!")'
 fi
 
 if [ "$PARALLEL" = true ]; then
   export COVERALLS_PARALLEL=true
 fi
 
-# check for lcov file presence:
-if [ ! -r "$PATH_TO_LCOV" ]; then
-  echo "Please specify a valid 'path_to_lcov' parameter."
-  exit 1
-fi
-
 if [ -n "$CIRCLE_PULL_REQUEST" ] || [ "${CIRCLE_BRANCH}" = "develop" ] || [ "${CIRCLE_BRANCH}" = "master" ]; then
   echo "Uploading coverage report to Coveralls..."
-  if [ "$VERBOSE" = true ]; then
-    < "$PATH_TO_LCOV" coveralls --verbose
+  if [ ! -r "$PATH_TO_LCOV" ]; then
+    CI_PULL_REQUEST=$PULL_REQUEST_NUMBER coveralls
   else
-    < "$PATH_TO_LCOV" coveralls
+    < "$PATH_TO_LCOV" CI_PULL_REQUEST=$CIRCLE_PULL_REQUEST coveralls
   fi
 else
   for I in 1 2 3 4 5
   do
-    PULL_REQUEST_NUMBER=$(curl -sb -H "Accept: application/json" -H "Authorization: Token $GITHUB_API_TOKEN" "https://api.github.com/repos/$ORG_NAME/$CIRCLE_PROJECT_REPONAME/commits/$CIRCLE_SHA1/pulls" | python -c 'import json,sys;data=json.load(sys.stdin);print(data[0]["number"]) if data and isinstance(data, list) else print()')
+    PULL_REQUEST_NUMBER=$(curl -sb -H "Accept: application/json" -H "Authorization: Token $GITHUB_API_TOKEN" "https://api.github.com/repos/$ORG_NAME/$CIRCLE_PROJECT_REPONAME/commits/$CIRCLE_SHA1/pulls" | python3.8 -c 'import json,sys;data=json.load(sys.stdin);print(data[0]["number"]) if data and isinstance(data, list) else print()')
+    echo "Pull request number: $PULL_REQUEST_NUMBER"
     if [ -n "$PULL_REQUEST_NUMBER" ]; then
-      if [ "$VERBOSE" = true ]; then
-        < "$PATH_TO_LCOV" CI_PULL_REQUEST=$PULL_REQUEST_NUMBER coveralls --verbose
+      if [ ! -r "$PATH_TO_LCOV" ]; then
+        CI_PULL_REQUEST=$PULL_REQUEST_NUMBER coveralls
       else
-        < "$PATH_TO_LCOV" CI_PULL_REQUEST=$PULL_REQUEST_NUMBER coveralls
+        PULL_REQUEST_URL="https://github.com/ergeon/$CIRCLE_PROJECT_REPONAME/pull/$PULL_REQUEST_NUMBER"
+        echo "$PULL_REQUEST_URL"
+        < "$PATH_TO_LCOV" CI_PULL_REQUEST=$PULL_REQUEST_URL coveralls
       fi
       break
     else
