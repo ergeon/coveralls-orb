@@ -7,7 +7,7 @@ fi
 
 if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
 
-if ! command -v npm &> /dev/null; then
+if [ ! -r "$PATH_TO_LCOV" ]; then
   pip install coveralls
 else
   $SUDO npm install -g coveralls
