@@ -35,7 +35,7 @@ if [ -n "$CIRCLE_PULL_REQUEST" ] || [ "${CIRCLE_BRANCH}" = "develop" ] || [ "${C
 else
   for I in 1 2 3 4 5
   do
-    PULL_REQUEST_NUMBER=$(curl -sb -H "Accept: application/json" -H "Authorization: Token $GITHUB_API_TOKEN" "https://api.github.com/repos/$ORG_NAME/$CIRCLE_PROJECT_REPONAME/commits/$CIRCLE_SHA1/pulls" | python -c 'import json,sys;data=json.load(sys.stdin);print(data[0]["number"]) if data and isinstance(data, list) else print()')
+    PULL_REQUEST_NUMBER=$(curl -sb -H "Accept: application/json" -H "Authorization: Token $GITHUB_API_TOKEN" "https://api.github.com/repos/$ORG_NAME/$CIRCLE_PROJECT_REPONAME/commits/$CIRCLE_SHA1/pulls" | python -c 'import json,sys;data=json.load(sys.stdin);pr_number=data[0]["number"] if data and isinstance(data, list) else "";print(pr_number)')
     echo "Pull request number: $PULL_REQUEST_NUMBER"
     if [ -n "$PULL_REQUEST_NUMBER" ]; then
       if [ ! -r "$PATH_TO_LCOV" ]; then
