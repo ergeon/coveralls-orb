@@ -8,6 +8,10 @@ parameters:
       An error will be thrown if the file can't be found. This is the file that will be sent to the Coveralls API.
     type: string
     default: ./coverage/lcov.info
+  flag_name:
+    description: Options flag name of the job, e.g. "Unit Tests", "Integration Tests", etc.
+    type: string
+    default: ''
   parallel:
     description: Set to true for parallel jobs, where multiple posts to Coveralls will be performed before completing the build with `parallel_finished`.
     type: boolean
@@ -27,6 +31,7 @@ steps:
       name: Upload Coverage Result To Coveralls
       environment:
         PATH_TO_LCOV: << parameters.path_to_lcov >>
+        FLAG_NAME: << parameters.flag_name >>
         PARALLEL: << parameters.parallel >>
         PARALLEL_FINISHED: << parameters.parallel_finished >>
         COVERALLS_ENDPOINT: << parameters.coveralls_endpoint >>
