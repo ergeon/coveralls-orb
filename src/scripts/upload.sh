@@ -30,8 +30,9 @@ fi
 
 if [ -n "$CIRCLE_PULL_REQUEST" ] || [ "${CIRCLE_BRANCH}" = "develop" ] || [ "${CIRCLE_BRANCH}" = "master" ]; then
   echo "Uploading coverage report to Coveralls..."
+  echo "Pull request number: $CIRCLE_PULL_REQUEST"
   if [ ! -r "$PATH_TO_LCOV" ]; then
-    CI_PULL_REQUEST=$PULL_REQUEST_NUMBER coveralls -v
+    CI_PULL_REQUEST=$CIRCLE_PULL_REQUEST coveralls
   else
     < "$PATH_TO_LCOV" CI_PULL_REQUEST=$CIRCLE_PULL_REQUEST coveralls
   fi
@@ -42,7 +43,7 @@ else
     echo "Pull request number: $PULL_REQUEST_NUMBER"
     if [ -n "$PULL_REQUEST_NUMBER" ]; then
       if [ ! -r "$PATH_TO_LCOV" ]; then
-        CI_PULL_REQUEST=$PULL_REQUEST_NUMBER coveralls -v
+        CI_PULL_REQUEST=$PULL_REQUEST_NUMBER coveralls
       else
         PULL_REQUEST_URL="https://github.com/ergeon/$CIRCLE_PROJECT_REPONAME/pull/$PULL_REQUEST_NUMBER"
         echo "$PULL_REQUEST_URL"
