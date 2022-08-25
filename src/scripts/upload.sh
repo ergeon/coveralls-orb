@@ -75,5 +75,5 @@ if [[ "$FILTER_COUNT" -eq 0 ]]; then
   fi
 else
   echo "the last commit log '${LAST_COMMIT_LOG}' contains '${SKIP_COVERAGE_TAG}', stopping"
-  curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token $DAUREN_GITHUB_API_TOKEN" "https://api.github.com/repos/ergeon/$CIRCLE_PROJECT_REPONAME/statuses/$CIRCLE_SHA1" -d '{"state":"success","description":"Coverage passed!","context":"coverage/coveralls"}'
+  curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token $GITHUB_API_TOKEN_V2" "https://api.github.com/repos/ergeon/$CIRCLE_PROJECT_REPONAME/statuses/$CIRCLE_SHA1" -d '{"state":"success","description":"Coverage passed!","context":"coverage/coveralls"}'
 fi
