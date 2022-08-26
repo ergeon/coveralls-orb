@@ -1,6 +1,22 @@
 Changelog
 =========
 
+1.1.1
+-------
+* Search fixed string in commit message
+
+1.1.0
+-------
+* Add skip coverage check
+
+1.0.9
+-------
+* Use CIRCLE_PULL_REQUEST env variable
+
+1.0.8
+-------
+* Add flag_name parameter
+
 1.0.7
 -------
 * Fix upload script to support python2.7
