@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.2.0
+-------
+* Skip coverage check for the tag
+
 1.1.1
 -------
 * Search fixed string in commit message
