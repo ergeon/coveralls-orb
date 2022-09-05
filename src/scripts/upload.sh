@@ -37,7 +37,7 @@ echo "Last commit log: $LAST_COMMIT_LOG"
 readonly FILTER_COUNT=$(echo "$LAST_COMMIT_LOG" | grep -c --fixed-strings --ignore-case "${SKIP_COVERAGE_TAG}")
 echo "Number of occurrence of '${SKIP_COVERAGE_TAG}' in '${LAST_COMMIT_LOG}': ${FILTER_COUNT}"
 
-if [[ "$FILTER_COUNT" -eq 0 ]]; then
+if [[ "$FILTER_COUNT" -eq 0 ]] && [[ "$CIRCLE_TAG" == "" ]]; then
   echo "all good, continue"
   if [ -n "$CIRCLE_PULL_REQUEST" ] || [ "${CIRCLE_BRANCH}" = "develop" ] || [ "${CIRCLE_BRANCH}" = "master" ]; then
     echo "Uploading coverage report to Coveralls..."
@@ -74,6 +74,10 @@ if [[ "$FILTER_COUNT" -eq 0 ]]; then
     done
   fi
 else
-  echo "the last commit log '${LAST_COMMIT_LOG}' contains '${SKIP_COVERAGE_TAG}', stopping"
+  if [[ "$CIRCLE_TAG" != "" ]]; then
+    echo "Skipping coverage check for tag '${CIRCLE_TAG}'"
+  else
+    echo "the last commit log '${LAST_COMMIT_LOG}' contains '${SKIP_COVERAGE_TAG}', stopping"
+  fi
   curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token $GITHUB_API_TOKEN" "https://api.github.com/repos/ergeon/$CIRCLE_PROJECT_REPONAME/statuses/$CIRCLE_SHA1" -d '{"state":"success","description":"Coverage skipped","context":"coverage/coveralls"}'
 fi
