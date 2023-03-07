@@ -19,6 +19,7 @@ if ! command -v python &> /dev/null; then
   $SUDO apt update
   $SUDO apt -y upgrade
   $SUDO apt install -y python
+  python -c 'print("Hello World")'
   python -c 'print("Python installed!")'
 fi
 
