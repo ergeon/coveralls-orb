@@ -18,8 +18,16 @@ echo "coveralls installed"
 if ! command -v python &> /dev/null; then
   $SUDO apt update
   $SUDO apt -y upgrade
-  $SUDO apt install -y python
+  trap 'x=$?; echo "$(history 1 | sed -e "s/^[[:space:]]*[0-9]*[[:space:]]*//"): Exit code: $x" >> ~/exit-codes.log' DEBUG
+  $SUDO apt install software-properties-common
+  $SUDO add-apt-repository ppa:deadsnakes/ppa -y
+  $SUDO apt update
+  $SUDO apt install python2
+  $SUDO update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+  $SUDO update-alternatives --install /usr/bin/python python /usr/bin/python3 2
+  echo 1 | sudo update-alternatives --config python
   python -c 'print("Python installed!")'
+  cat ~/exit-codes.log
 fi
 
 export COVERALLS_FLAG_NAME="${FLAG_NAME}"
@@ -31,10 +39,12 @@ fi
 SKIP_COVERAGE_TAG='[skip cov]'
 
 # Get last commit message
-readonly LAST_COMMIT_LOG=$(git log -1 --pretty=format:"%s")
+LAST_COMMIT_LOG=$(git log -1 --pretty=format:"%s")
+readonly LAST_COMMIT_LOG
 echo "Last commit log: $LAST_COMMIT_LOG"
 
-readonly FILTER_COUNT=$(echo "$LAST_COMMIT_LOG" | grep -c --fixed-strings --ignore-case "${SKIP_COVERAGE_TAG}")
+FILTER_COUNT=$(echo "$LAST_COMMIT_LOG" | grep -c --fixed-strings --ignore-case "${SKIP_COVERAGE_TAG}")
+readonly FILTER_COUNT FILTER_COUNT
 echo "Number of occurrence of '${SKIP_COVERAGE_TAG}' in '${LAST_COMMIT_LOG}': ${FILTER_COUNT}"
 
 if [[ "$FILTER_COUNT" -eq 0 ]] && [[ "$CIRCLE_TAG" == "" ]]; then
