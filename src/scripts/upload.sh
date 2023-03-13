@@ -18,7 +18,7 @@ echo "coveralls installed"
 if ! command -v python &> /dev/null; then
   $SUDO apt update
   $SUDO apt -y upgrade
-  $SUDO apt install -y python
+  $SUDO apt install python-is-python3
   python -c 'print("Python installed!")'
 fi
 
@@ -31,10 +31,12 @@ fi
 SKIP_COVERAGE_TAG='[skip cov]'
 
 # Get last commit message
-readonly LAST_COMMIT_LOG=$(git log -1 --pretty=format:"%s")
+LAST_COMMIT_LOG='$(git log -1 --pretty=format:"%s")'
+readonly LAST_COMMIT_LOG
 echo "Last commit log: $LAST_COMMIT_LOG"
 
-readonly FILTER_COUNT=$(echo "$LAST_COMMIT_LOG" | grep -c --fixed-strings --ignore-case "${SKIP_COVERAGE_TAG}")
+FILTER_COUNT='$(echo "$LAST_COMMIT_LOG" | grep -c --fixed-strings --ignore-case "${SKIP_COVERAGE_TAG}")'
+readonly FILTER_COUNT
 echo "Number of occurrence of '${SKIP_COVERAGE_TAG}' in '${LAST_COMMIT_LOG}': ${FILTER_COUNT}"
 
 if [[ "$FILTER_COUNT" -eq 0 ]] && [[ "$CIRCLE_TAG" == "" ]]; then
