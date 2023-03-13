@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.3.0
+-------
+* Fix python for node images
+
 1.2.0
 -------
 * Skip coverage check for the tag
