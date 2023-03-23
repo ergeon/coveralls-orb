@@ -9,6 +9,9 @@ fi
 if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
 
 if [ ! -r "$PATH_TO_LCOV" ]; then
+  $SUDO apt update
+  $SUDO apt -y upgrade
+  $SUDO apt install python3-pip
   pip install coveralls
 else
   $SUDO npm install -g coveralls
@@ -16,8 +19,6 @@ fi
 echo "coveralls installed"
 
 if ! command -v python &> /dev/null; then
-  $SUDO apt update
-  $SUDO apt -y upgrade
   $SUDO apt install python-is-python3
   python -c 'print("Python installed!")'
 fi
