@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.3.2
+-------
+* Deploy to circleci orb registry
+
 1.3.1
 -------
 * Fix pip command not found
