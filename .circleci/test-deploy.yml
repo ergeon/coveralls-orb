@@ -18,9 +18,17 @@ jobs:
         - run: python --version
         - run: pip --version
         - coveralls/upload
-    node-test:
+    node-test-v14:
       docker:
         - image: cimg/node:14.16.0
+      steps:
+        - checkout
+        - run: npm --version
+        - run: node --version
+        - coveralls/upload
+    node-test-v18:
+      docker:
+        - image: cimg/node:18.15.0
       steps:
         - checkout
         - run: npm --version
@@ -32,7 +40,9 @@ workflows:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
       - python-test:
           filters: *filters
-      - node-test:
+      - node-test-v14:
+          filters: *filters
+      - node-test-v18:
           filters: *filters
       - orb-tools/pack:
           filters: *filters
@@ -41,7 +51,7 @@ workflows:
           vcs-type: << pipeline.project.type >>
           pub-type: production
           requires:
-            - orb-tools/pack
+            [python-test, node-test-v14, node-test-v18, orb-tools/pack]
           context:
             - orb-publishing
             - github-secrets
