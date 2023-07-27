@@ -9,9 +9,6 @@ fi
 if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
 
 if [ ! -r "$PATH_TO_LCOV" ]; then
-  $SUDO apt update
-  $SUDO apt -y upgrade
-  $SUDO apt install python3-pip
   pip install coveralls
 else
   $SUDO npm install -g coveralls
@@ -19,7 +16,9 @@ fi
 echo "coveralls installed"
 
 if ! command -v python &> /dev/null; then
-  $SUDO apt install python-is-python3
+  $SUDO apt update
+  $SUDO apt -y upgrade
+  $SUDO apt install -y python
   python -c 'print("Python installed!")'
 fi
 
@@ -32,12 +31,10 @@ fi
 SKIP_COVERAGE_TAG='[skip cov]'
 
 # Get last commit message
-LAST_COMMIT_LOG=$(git log -1 --pretty=format:"%s")
-readonly LAST_COMMIT_LOG
+readonly LAST_COMMIT_LOG=$(git log -1 --pretty=format:"%s")
 echo "Last commit log: $LAST_COMMIT_LOG"
 
-FILTER_COUNT=$(echo "$LAST_COMMIT_LOG" | grep -c --fixed-strings --ignore-case "${SKIP_COVERAGE_TAG}")
-readonly FILTER_COUNT
+readonly FILTER_COUNT=$(echo "$LAST_COMMIT_LOG" | grep -c --fixed-strings --ignore-case "${SKIP_COVERAGE_TAG}")
 echo "Number of occurrence of '${SKIP_COVERAGE_TAG}' in '${LAST_COMMIT_LOG}': ${FILTER_COUNT}"
 
 if [[ "$FILTER_COUNT" -eq 0 ]] && [[ "$CIRCLE_TAG" == "" ]]; then
