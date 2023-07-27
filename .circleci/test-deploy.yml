@@ -17,7 +17,7 @@ jobs:
         - checkout
         - run: python --version
         - run: pip --version
-        - coveralls/upload
+        - run: coveralls/upload --service=github
     node-test-v14:
       docker:
         - image: cimg/node:14.16.0
@@ -25,7 +25,7 @@ jobs:
         - checkout
         - run: npm --version
         - run: node --version
-        - coveralls/upload
+        - run: coveralls/upload --service=github
     node-test-v18:
       docker:
         - image: cimg/node:18.15.0
@@ -33,7 +33,7 @@ jobs:
         - checkout
         - run: npm --version
         - run: node --version
-        - coveralls/upload
+        - run: coveralls/upload --service=github
 workflows:
   test-deploy:
     jobs:
