@@ -17,6 +17,12 @@ jobs:
         - checkout
         - run: python --version
         - run: pip --version
+        - run:
+            name: Install dependencies
+            command: make install
+        - run:
+            name: Run Coverage
+            command: make coverage
         - coveralls/upload
     node-test-v14:
       docker:
@@ -25,6 +31,12 @@ jobs:
         - checkout
         - run: npm --version
         - run: node --version
+        - run:
+            name: Install dependencies
+            command: make install
+        - run:
+            name: Run Coverage
+            command: make coverage
         - coveralls/upload
     node-test-v18:
       docker:
@@ -33,6 +45,12 @@ jobs:
         - checkout
         - run: npm --version
         - run: node --version
+        - run:
+            name: Install dependencies
+            command: make install
+        - run:
+            name: Run Coverage
+            command: make coverage
         - coveralls/upload
 workflows:
   test-deploy:
