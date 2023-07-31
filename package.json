@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "test": "jest --detectOpenHandles --colors --verbose --ci",
+    "coverage": "npm test -- --coverage --watchAll=false"
+  },
+  "devDependencies": {
+    "coveralls": "^3.1.1",
+    "jest": "^29.6.2"
+  }
+}
