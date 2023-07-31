@@ -12,7 +12,7 @@ jobs:
     # You may want to add additional validation steps to ensure the commands are working as expected.
     python-test:
       docker:
-        - image: cimg/python:3.8.9
+        - image: cimg/python:3.11.0-node
       steps:
         - checkout
         - run: python --version
@@ -40,7 +40,7 @@ jobs:
         - coveralls/upload
     node-test-v18:
       docker:
-        - image: cimg/node:18.15.0
+        - image: node:18.12.0-browsers
       steps:
         - checkout
         - run: npm --version
