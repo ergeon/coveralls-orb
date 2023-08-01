@@ -19,6 +19,7 @@ fi
 echo "coveralls installed"
 
 if ! command -v python &> /dev/null; then
+  $SUDO apt update
   $SUDO apt install python-is-python3
   python -c 'print("Python installed!")'
 fi
