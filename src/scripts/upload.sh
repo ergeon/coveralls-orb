@@ -13,10 +13,11 @@ if [ ! -r "$PATH_TO_LCOV" ]; then
   $SUDO apt -y upgrade
   $SUDO apt install -y python3-pip
   pip install coveralls
+  echo "coveralls installe via pip"
 else
   $SUDO npm install -g coveralls
+  echo "coveralls installe via npm"
 fi
-echo "coveralls installed"
 
 if ! command -v python &> /dev/null; then
   $SUDO apt update
