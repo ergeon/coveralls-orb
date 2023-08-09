@@ -1,4 +1,4 @@
-PATH_TO_TESTS = sample_test.py
+PATH_TO_TESTS = tests/sample_test.py
 
 npm-install: .install
 .install: package.json
