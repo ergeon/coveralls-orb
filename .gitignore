@@ -2,3 +2,8 @@
 orb.yml
 .DS_Store
 .idea
+node_modules/*
+coverage/*
+.coverage
+__pycache__
+tests/__pycache__
