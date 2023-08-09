@@ -12,7 +12,7 @@ jobs:
     # You may want to add additional validation steps to ensure the commands are working as expected.
     python-test:
       docker:
-        - image: cimg/python:3.11.0-node
+        - image: cimg/python:3.8.9
       steps:
         - checkout
         - run: python --version
@@ -22,7 +22,7 @@ jobs:
             command: make install
         - run:
             name: Run Coverage
-            command: make coverage
+            command: make python-coverage
         - coveralls/upload
     node-test-v14:
       docker:
@@ -36,7 +36,7 @@ jobs:
             command: make install
         - run:
             name: Run Coverage
-            command: make coverage
+            command: make node-coverage
         - coveralls/upload
     node-test-v18:
       docker:
@@ -50,7 +50,7 @@ jobs:
             command: make install
         - run:
             name: Run Coverage
-            command: make coverage
+            command: make node-coverage
         - coveralls/upload
 workflows:
   test-deploy:
