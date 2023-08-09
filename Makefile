@@ -5,8 +5,7 @@ npm-install: .install
 	npm install
 	touch $@
 
-pip-install: .pip-install
-.pip-install:
+pip-install:
 	pip install coveralls
 
 node-coverage:
