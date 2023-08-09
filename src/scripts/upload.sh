@@ -8,9 +8,7 @@ fi
 
 if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
 
-export IS_NODE_ENV=$([ ! -r "$PATH_TO_LCOV" ] && echo "true" || echo "false")
-
-if [ "$IS_NODE_ENV" ]; then
+if [ ! -r "$PATH_TO_LCOV" ]; then
   $SUDO apt update
   $SUDO apt -y upgrade
   $SUDO apt install -y python3-pip

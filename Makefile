@@ -8,7 +8,7 @@ npm-install: .install
 pip-install:
 	pip install coveralls
 
-node-coverage: clean
+node-coverage:
 	npm run coverage
 
 python-coverage-test:
@@ -17,7 +17,7 @@ python-coverage-test:
 coverage-report:
 	coverage report
 
-python-coverage: clean python-coverage-test coverage-report
+python-coverage: python-coverage-test coverage-report
 
 clean:
 	rm -rf .install coverage
