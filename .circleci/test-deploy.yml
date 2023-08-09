@@ -17,9 +17,13 @@ jobs:
         - checkout
         - run: python --version
         - run: pip --version
-        # - run:
-        #     name: Install dependencies
-        #     command: make pip-install
+        - run:
+            name: Install dependencies
+            command: make pip-install
+        - run:
+            name: Run Coverage
+            command: make python-coverage
+        - coveralls/upload
     node-test-v14:
       docker:
         - image: cimg/node:14.16.0
