@@ -12,7 +12,7 @@ node-coverage:
 	npm run coverage
 
 python-coverage-test:
-	coverage run $(PATH_TO_TESTS)
+	coverage run --omit "*test.py*" $(PATH_TO_TESTS)
 	
 coverage-report:
 	coverage report
