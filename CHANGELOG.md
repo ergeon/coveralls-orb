@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.0.1
+-------
+* Fix orb skipping coverage report
+
 1.3.2
 -------
 * Deploy to circleci orb registry

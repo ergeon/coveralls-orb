@@ -17,6 +17,12 @@ jobs:
         - checkout
         - run: python --version
         - run: pip --version
+        - run:
+            name: Install dependencies
+            command: make pip-install
+        - run:
+            name: Run Coverage
+            command: make python-coverage
         - coveralls/upload
     node-test-v14:
       docker:
@@ -25,14 +31,26 @@ jobs:
         - checkout
         - run: npm --version
         - run: node --version
+        - run:
+            name: Install dependencies
+            command: make npm-install
+        - run:
+            name: Run Coverage
+            command: make node-coverage
         - coveralls/upload
     node-test-v18:
       docker:
-        - image: cimg/node:18.15.0
+        - image: cimg/node:18.12.0-browsers
       steps:
         - checkout
         - run: npm --version
         - run: node --version
+        - run:
+            name: Install dependencies
+            command: make npm-install
+        - run:
+            name: Run Coverage
+            command: make node-coverage
         - coveralls/upload
 workflows:
   test-deploy:
